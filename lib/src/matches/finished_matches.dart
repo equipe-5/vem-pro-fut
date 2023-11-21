@@ -40,7 +40,7 @@ class _FinishedMatchesState extends State<FinishedMatches> {
                           width: constraints.maxWidth,
                           child: const MatchCard(cardText: 'Encerrada'),
                         ),
-                      )
+                      ),
                   ],
                 ),
               ),
