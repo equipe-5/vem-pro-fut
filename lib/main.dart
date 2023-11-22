@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vem_pro_fut_app/src/matches/view_match.dart';
+import 'package:vem_pro_fut_app/src/teams/view_teams.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Colors.greenAccent.shade400),
         useMaterial3: true,
       ),
-      home: const ViewMatch(),
+      home: const ViewTeams(),
     );
   }
 }
