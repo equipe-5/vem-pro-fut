@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vem_pro_fut_app/src/matches/view_match.dart';
-import 'package:vem_pro_fut_app/src/schedule/schedule%20game.dart';
+import 'package:vem_pro_fut_app/src/commons/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Colors.greenAccent.shade400),
         useMaterial3: true,
       ),
-      home: const ScheduleGame(),
+      home: const LoginPage(),
     );
   }
 }
