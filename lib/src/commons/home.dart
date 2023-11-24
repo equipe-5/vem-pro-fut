@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header_home.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 import 'package:vem_pro_fut_app/src/matches/match_card.dart';
 
 class Home extends StatefulWidget {
@@ -12,11 +14,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const HeaderHome(),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(

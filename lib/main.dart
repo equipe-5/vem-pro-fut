@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/home.dart';
 import 'package:vem_pro_fut_app/src/commons/login.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Colors.greenAccent.shade400),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const Home(),
     );
   }
 }
