@@ -195,9 +195,9 @@ class _CreateMatchState extends State<CreateMatch> {
       return showEmptyFieldAlert(context, 'Todos os campos são obrigatórios');
     }
 
-    if (DateFormat('dd/MM/yyyy')
-        .parse(_dateController.text)
-        .isBefore(DateTime.now())) {
+    if (DateFormat('dd/MM/yyyy').parse(_dateController.text).isBefore(
+        DateFormat('yyyy-MM-dd')
+            .parse(DateTime.now().toString().split(' ')[0]))) {
       return showEmptyFieldAlert(
           context, 'Não é possível voltar no tempo!! verifique sua data');
     }
