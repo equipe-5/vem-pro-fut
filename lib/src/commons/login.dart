@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -18,9 +19,12 @@ class _LoginPageState extends State<LoginPage> {
 
     // Basic validation
     if (username == 'Admin' && password == '123456') {
-      // Successful login, navigate to the home page
-      // Navigator.pushReplacementNamed(context, '/home');
-      // You can add navigation logic or any other actions here
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Home(),
+        ),
+      );
     } else {
       // Display error message
       setState(() {
