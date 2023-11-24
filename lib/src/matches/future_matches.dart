@@ -57,10 +57,11 @@ class _FutureMatchesState extends State<FutureMatches> {
                           height: 150.0,
                           width: constraints.maxWidth,
                           child: const MatchCard(
-                            matchDescription: 'Faltam X Dias',
+                            matchName: 'Faltam X Dias',
                             memberCount: 0,
                             maxMembers: 10,
                             matchDate: '01/01/2022',
+                            image: 'assets/images/matches/partida-1.jpg',
                           ),
                         ),
                       )

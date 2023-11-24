@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header_home.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 import 'package:vem_pro_fut_app/src/matches/match_card.dart';
+import 'package:vem_pro_fut_app/src/model/match.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -25,29 +26,31 @@ class _HomeState extends State<Home> {
           verticalDirection: VerticalDirection.down,
           children: [
             Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) => ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    for (int i = 0; i < 5; i++)
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                        ),
-                        child: SizedBox(
-                          height: 150.0,
-                          width: constraints.maxWidth,
-                          child: const MatchCard(
-                            matchDescription: 'Faltam X Dias',
-                            memberCount: 10,
-                            maxMembers: 15,
-                            matchDate: '01/01/2022',
+              child: 
+                    ListView.builder(
+                      itemCount: matches.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 8.0,
                           ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+                          child: SizedBox(
+                            height: 150.0,
+                            // width: constraints.maxWidth,
+                            child: MatchCard(
+                              matchName: matches[index].matchName,
+                              memberCount: matches[index].memberCount,
+                              maxMembers: matches[index].maxMembers,
+                              matchDate: matches[index].matchDate,
+                              image: matches[index].image,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  // ],
+                // ),
+              // ),
             ),
           ],
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/matches/schedule_matches.dart';
 
 class ViewTeam extends StatefulWidget {
   const ViewTeam({super.key});
@@ -118,7 +119,7 @@ class _ViewTeamState extends State<ViewTeam> {
               alignment: Alignment.bottomCenter,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  return;
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ScheduleMatches()));
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Agendar nova partida'),

@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/commons/home.dart';
+import 'package:vem_pro_fut_app/src/model/match.dart';
 
 class CreateMatch extends StatefulWidget {
   const CreateMatch({super.key});
@@ -12,7 +16,10 @@ class CreateMatch extends StatefulWidget {
 
 class _CreateMatchState extends State<CreateMatch> {
   final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _maxLimitController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +32,9 @@ class _CreateMatchState extends State<CreateMatch> {
           mainAxisAlignment:
               MainAxisAlignment.start, // Align components centrally
           children: [
-            const TextField(
-              decoration: InputDecoration(labelText: 'Nome da Partida'),
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Nome da Partida'),
             ),
             const SizedBox(height: 16.0),
             TextField(
@@ -75,23 +83,25 @@ class _CreateMatchState extends State<CreateMatch> {
               },
             ),
             const SizedBox(height: 16.0),
-            const Row(
+            Row(
               children: [
-                Text(
+                const Text(
                   'Limite máximo de jogadores:',
                   style: TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(width: 16.0),
+                const SizedBox(width: 16.0),
                 Expanded(
                   child: TextField(
+                    controller: _maxLimitController,
                     keyboardType: TextInputType.number,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16.0),
-            const TextField(
-              decoration: InputDecoration(labelText: 'Observações'),
+            TextField(
+              controller: _descriptionController,
+              decoration: const InputDecoration(labelText: 'Observações'),
             ),
             const SizedBox(height: 24.0),
             const Text(
@@ -114,7 +124,7 @@ class _CreateMatchState extends State<CreateMatch> {
               height: 50.0, // Set the height of the button
               child: ElevatedButton.icon(
                 onPressed: () {
-                  return;
+                  _addMatch();
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Criar Partida'),
@@ -132,5 +142,20 @@ class _CreateMatchState extends State<CreateMatch> {
         ),
       ),
     );
+  }
+
+  void _addMatch() {
+    Match match = Match(
+      _nameController.text, 
+      _dateController.text, 
+      _timeController.text, 
+      int.parse(_maxLimitController.text), 
+      _descriptionController.text,
+      Random().nextInt(int.parse(_maxLimitController.text))      
+    );
+
+    matches.add(match);
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
   }
 }

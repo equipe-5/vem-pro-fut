@@ -38,10 +38,11 @@ class _FinishedMatchesState extends State<FinishedMatches> {
                           height: 150.0,
                           width: constraints.maxWidth,
                           child: const MatchCard(
-                            matchDescription: 'Encerrada',
+                            matchName: 'Encerrada',
                             memberCount: 0,
                             maxMembers: 10,
                             matchDate: '01/01/2022',
+                            image: 'assets/images/matches/partida-1.jpg',
                           ),
                         ),
                       ),

@@ -4,15 +4,18 @@ import 'package:vem_pro_fut_app/src/matches/view_match.dart';
 class MatchCard extends StatefulWidget {
   const MatchCard(
       {Key? key,
-      required this.matchDescription,
+      required this.matchName,
       required this.memberCount,
       required this.maxMembers,
-      required this.matchDate})
+      required this.matchDate,
+      required this.image})
       : super(key: key);
-  final String matchDescription;
+  
+  final String matchName;
   final int memberCount;
   final int maxMembers;
   final String matchDate;
+  final String image;
 
   @override
   State<MatchCard> createState() => _MatchCard();
@@ -41,7 +44,7 @@ class _MatchCard extends State<MatchCard> {
                 child: Stack(
                   children: [
                     Image.asset(
-                      'assets/images/partida-de-fut.jpg',
+                      widget.image,
                       fit: BoxFit.cover,
                       height: double.infinity,
                       width: double.infinity,
@@ -69,7 +72,7 @@ class _MatchCard extends State<MatchCard> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              widget.matchDescription,
+                              widget.matchName,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
