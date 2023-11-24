@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/model/team.dart';
+import 'package:vem_pro_fut_app/src/teams/view_teams.dart';
 
 class CreateTeam extends StatefulWidget {
   const CreateTeam({super.key});
@@ -14,6 +16,8 @@ class CreateTeam extends StatefulWidget {
 
 class _CreateTeamState extends State<CreateTeam> {
   File? _imageFile;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -47,49 +51,54 @@ class _CreateTeamState extends State<CreateTeam> {
               ),
             ),
             const SizedBox(height: 32.0),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
                 labelText: 'Nome do Time',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16.0),
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _descriptionController,
+              decoration: const InputDecoration(
                 labelText: 'Descricão do Time',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16.0),
-            ButtonTheme(
-              // Set the minimum width of the button to match the screen width
-              height: 50.0, // Set the height of the button
+            Container(
+              alignment: Alignment.bottomCenter,
               child: ElevatedButton.icon(
+                onPressed: () {
+                  _addTeam();
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text(
+                        'Time Criado!',
+                        textAlign: TextAlign.center,
+                      ),
+                      content:
+                          const Text('Clique para copiar o link de convite'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'OK'),
+                          child: const Text('Copiar'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.add),
                 label: const Text('Criar Time'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   minimumSize: const Size.fromHeight(50),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(0), // Set the button shape
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ),
-                onPressed: () => showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text(
-                      'Time Criado!',
-                      textAlign: TextAlign.center,
-                    ),
-                    content: const Text('Clique para copiar o link de convite'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, 'OK'),
-                        child: const Text('Copiar'),
-                      ),
-                    ],
-                  ),
+                  foregroundColor: Colors.white,
                 ),
               ),
             ),
@@ -97,5 +106,39 @@ class _CreateTeamState extends State<CreateTeam> {
         ),
       ),
     );
+  }
+
+  void showEmptyFieldAlert(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Verifique as informações'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _addTeam() {
+    if (_nameController.text.isEmpty || _descriptionController.text.isEmpty) {
+      return showEmptyFieldAlert(context, 'Todos os campos são obrigatórios');
+    }
+
+    Team team = Team(IdTeam, _nameController.text, _descriptionController.text);
+
+    teams.add(team);
+    IdTeam += 1;
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ViewTeams()));
   }
 }

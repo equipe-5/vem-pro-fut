@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:vem_pro_fut_app/src/matches/view_match.dart';
+import 'package:vem_pro_fut_app/src/model/match.dart';
 
 class MatchCard extends StatefulWidget {
   const MatchCard(
-      {Key? key,
-      required this.matchName,
-      required this.memberCount,
-      required this.maxMembers,
-      required this.matchDate,
-      required this.image})
+      {Key? key, required this.match})
       : super(key: key);
   
-  final String matchName;
-  final int memberCount;
-  final int maxMembers;
-  final String matchDate;
-  final String image;
+  final Match match;
 
   @override
   State<MatchCard> createState() => _MatchCard();
@@ -24,7 +16,7 @@ class MatchCard extends StatefulWidget {
 class _MatchCard extends State<MatchCard> {
   void _matchInfo() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const ViewMatch()));
+        context, MaterialPageRoute(builder: (context) => ViewMatch(match: widget.match,)));
   }
 
   @override
@@ -44,7 +36,7 @@ class _MatchCard extends State<MatchCard> {
                 child: Stack(
                   children: [
                     Image.asset(
-                      widget.image,
+                      widget.match.image,
                       fit: BoxFit.cover,
                       height: double.infinity,
                       width: double.infinity,
@@ -72,7 +64,7 @@ class _MatchCard extends State<MatchCard> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              widget.matchName,
+                              widget.match.matchName,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
@@ -80,7 +72,7 @@ class _MatchCard extends State<MatchCard> {
                               ),
                             ),
                             Text(
-                              widget.matchDate,
+                              widget.match.matchDate,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 10.0,
@@ -100,7 +92,7 @@ class _MatchCard extends State<MatchCard> {
                               color: Colors.white,
                             ),
                             Text(
-                              '${widget.memberCount}/${widget.maxMembers}',
+                              '${widget.match.memberCount}/${widget.match.maxMembers}',
                               style: const TextStyle(
                                 color: Colors.white,
                               ),

@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/model/team.dart';
 import 'package:vem_pro_fut_app/src/teams/view_team.dart';
 
 class TeamCard extends StatefulWidget {
-  final String imagePath;
-  final String teamName;
-  final double rating;
-  final int memberCount;
+  final Team team;
 
   const TeamCard({
     super.key,
-    required this.imagePath,
-    required this.teamName,
-    required this.rating,
-    required this.memberCount,
+    required this.team,
   });
 
   @override
@@ -22,7 +17,7 @@ class TeamCard extends StatefulWidget {
 class _TeamCardState extends State<TeamCard> {
   void _viewTeam() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const ViewTeam()));
+        context, MaterialPageRoute(builder: (context) => ViewTeam(team: widget.team)));
   }
 
   @override
@@ -51,7 +46,7 @@ class _TeamCardState extends State<TeamCard> {
                         bottomLeft: Radius.circular(8.0),
                       ),
                       image: DecorationImage(
-                        image: AssetImage(widget.imagePath),
+                        image: AssetImage(widget.team.teamLogo),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -64,7 +59,7 @@ class _TeamCardState extends State<TeamCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.teamName,
+                            widget.team.teamName,
                             style: const TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,
@@ -75,7 +70,7 @@ class _TeamCardState extends State<TeamCard> {
                               // Display Rating as stars
                               const Icon(Icons.star, color: Colors.black),
                               Text(
-                                ' ${widget.rating.toString()}',
+                                ' ${widget.team.rating.toString()}',
                                 style: const TextStyle(fontSize: 16.0),
                               ),
                             ],
@@ -92,7 +87,7 @@ class _TeamCardState extends State<TeamCard> {
                         Row(
                           children: [
                             const Icon(Icons.people),
-                            Text(' ${widget.memberCount}'),
+                            Text(' ${widget.team.memberCount}'),
                           ],
                         )
                       ],

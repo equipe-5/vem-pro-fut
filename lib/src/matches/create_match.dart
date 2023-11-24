@@ -1,10 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
-import 'package:vem_pro_fut_app/src/commons/home.dart';
+import 'package:vem_pro_fut_app/src/matches/future_matches.dart';
 import 'package:vem_pro_fut_app/src/model/match.dart';
 
 class CreateMatch extends StatefulWidget {
@@ -17,7 +15,8 @@ class CreateMatch extends StatefulWidget {
 class _CreateMatchState extends State<CreateMatch> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _maxLimitController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
@@ -25,8 +24,9 @@ class _CreateMatchState extends State<CreateMatch> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const SideBarDrawer(),
-      appBar: const Header(title: 'Criar Partida', subtitle: 'Crie suas próprias partidas'),
-      body: Container(
+      appBar: const Header(
+          title: 'Criar Partida', subtitle: 'Crie suas próprias partidas'),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment:
@@ -61,10 +61,10 @@ class _CreateMatchState extends State<CreateMatch> {
                 }),
             const SizedBox(height: 16.0),
             TextField(
-              controller: _timeController,
+              controller: _startTimeController,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
-                labelText: 'Hora',
+                labelText: 'Hora de Inicio',
                 suffixIcon: Icon(Icons.access_time),
                 border: OutlineInputBorder(),
               ),
@@ -77,7 +77,30 @@ class _CreateMatchState extends State<CreateMatch> {
                   // ignore: use_build_context_synchronously
                   String formattedTime = pickedTime.format(context);
                   setState(() {
-                    _timeController.text = formattedTime;
+                    _startTimeController.text = formattedTime;
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _endTimeController,
+              keyboardType: TextInputType.text,
+              decoration: const InputDecoration(
+                labelText: 'Hora de término',
+                suffixIcon: Icon(Icons.access_time),
+                border: OutlineInputBorder(),
+              ),
+              onTap: () async {
+                TimeOfDay? pickedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                if (pickedTime != null) {
+                  // ignore: use_build_context_synchronously
+                  String formattedTime = pickedTime.format(context);
+                  setState(() {
+                    _endTimeController.text = formattedTime;
                   });
                 }
               },
@@ -119,9 +142,8 @@ class _CreateMatchState extends State<CreateMatch> {
               ),
             ),
             const SizedBox(height: 32.0),
-            ButtonTheme(
-              // Set the minimum width of the button to match the screen width
-              height: 50.0, // Set the height of the button
+            Container(
+              alignment: Alignment.bottomCenter,
               child: ElevatedButton.icon(
                 onPressed: () {
                   _addMatch();
@@ -132,30 +154,70 @@ class _CreateMatchState extends State<CreateMatch> {
                   backgroundColor: Colors.green,
                   minimumSize: const Size.fromHeight(50),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(0), // Set the button shape
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  foregroundColor: Colors.white,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _addMatch() {
-    Match match = Match(
-      _nameController.text, 
-      _dateController.text, 
-      _timeController.text, 
-      int.parse(_maxLimitController.text), 
-      _descriptionController.text,
-      Random().nextInt(int.parse(_maxLimitController.text))      
+  void showEmptyFieldAlert(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Verifique as informações'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
+  }
 
-    matches.add(match);
+  void _addMatch() {
+    if (_nameController.text.isEmpty ||
+        _dateController.text.isEmpty ||
+        _startTimeController.text.isEmpty ||
+        _endTimeController.text.isEmpty ||
+        _maxLimitController.text.isEmpty ||
+        _descriptionController.text.isEmpty) {
+      return showEmptyFieldAlert(context, 'Todos os campos são obrigatórios');
+    }
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const Home()));
+    if (DateFormat('dd/MM/yyyy')
+        .parse(_dateController.text)
+        .isBefore(DateTime.now())) {
+      return showEmptyFieldAlert(
+          context, 'Não é possível voltar no tempo!! verifique sua data');
+    }
+
+    Match match = Match(
+        _nameController.text,
+        _dateController.text,
+        _startTimeController.text,
+        _endTimeController.text,
+        int.parse(_maxLimitController.text),
+        _descriptionController.text,
+        1,
+        'Admin',
+        IdMatches);
+
+    futureMatches.add(match);
+    IdMatches += 1;
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const FutureMatches()));
   }
 }

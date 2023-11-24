@@ -26,32 +26,22 @@ class _HomeState extends State<Home> {
           verticalDirection: VerticalDirection.down,
           children: [
             Expanded(
-              child: 
-                    ListView.builder(
-                      itemCount: matches.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: 8.0,
-                          ),
-                          child: SizedBox(
-                            height: 150.0,
-                            // width: constraints.maxWidth,
-                            child: MatchCard(
-                              matchName: matches[index].matchName,
-                              memberCount: matches[index].memberCount,
-                              maxMembers: matches[index].maxMembers,
-                              matchDate: matches[index].matchDate,
-                              image: matches[index].image,
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  // ],
-                // ),
-              // ),
-            ),
+                child: ListView.builder(
+              itemCount: matches.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                  ),
+                  child: SizedBox(
+                    height: 150.0,
+                    child: MatchCard(
+                      match: matches[index],
+                    ),
+                  ),
+                );
+              },
+            )),
           ],
         ),
       ),

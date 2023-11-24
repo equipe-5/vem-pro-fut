@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/matches/match_card.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/model/match.dart';
+
+List<Match> finishedMatches = [];
 
 class FinishedMatches extends StatefulWidget {
   const FinishedMatches({super.key});
@@ -11,8 +15,19 @@ class FinishedMatches extends StatefulWidget {
 }
 
 class _FinishedMatchesState extends State<FinishedMatches> {
+  
+  void _finish(){
+      for (var element in futureMatches) {
+        if (DateFormat('dd/MM/yyyy').parse(element.matchDate).isBefore(DateTime.now())) {
+          finishedMatches.add(element);
+          futureMatches.remove(element);
+        }
+      }
+  }
+  
   @override
   Widget build(BuildContext context) {
+    _finish();
     return Scaffold(
       drawer: const SideBarDrawer(),
       appBar: const Header(title: 'Partidas Encerradas', subtitle: 'Veja seus resultados'),
@@ -24,32 +39,24 @@ class _FinishedMatchesState extends State<FinishedMatches> {
           mainAxisSize: MainAxisSize.min,
           verticalDirection: VerticalDirection.down,
           children: [
+            const SizedBox(height: 16.0),
             Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) => ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    for (int i = 0; i < 5; i++)
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                        ),
-                        child: SizedBox(
-                          height: 150.0,
-                          width: constraints.maxWidth,
-                          child: const MatchCard(
-                            matchName: 'Encerrada',
-                            memberCount: 0,
-                            maxMembers: 10,
-                            matchDate: '01/01/2022',
-                            image: 'assets/images/matches/partida-1.jpg',
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
+                child: ListView.builder(
+              itemCount: finishedMatches.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                  ),
+                  child: SizedBox(
+                    height: 150.0,
+                    child: MatchCard(
+                      match: finishedMatches[index],
+                    ),
+                  ),
+                );
+              },
+            )),
           ],
         ),
       ),
