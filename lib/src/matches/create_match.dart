@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 
 class CreateMatch extends StatefulWidget {
   const CreateMatch({super.key});
@@ -15,11 +17,8 @@ class _CreateMatchState extends State<CreateMatch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Criar Partida'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(title: 'Criar Partida', subtitle: 'Crie suas próprias partidas'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 
 class ViewMatch extends StatefulWidget {
   const ViewMatch({super.key});
@@ -11,11 +13,8 @@ class _ViewMatchState extends State<ViewMatch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Visualizar Partida'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(title: 'Nome da Partida', subtitle: '1 KM próximo a você'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(

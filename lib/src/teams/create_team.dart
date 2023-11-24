@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 
 class CreateTeam extends StatefulWidget {
   const CreateTeam({super.key});
@@ -26,11 +28,8 @@ class _CreateTeamState extends State<CreateTeam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Criar Time'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(title: 'Criar Time', subtitle: 'Chame seus amigos!'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(

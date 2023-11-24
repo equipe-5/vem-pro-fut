@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 
 class ViewTeam extends StatefulWidget {
   const ViewTeam({super.key});
@@ -11,11 +13,8 @@ class _ViewTeamState extends State<ViewTeam> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Visualizar Time'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(title: 'Time B', subtitle: 'Detalhes do time'),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [

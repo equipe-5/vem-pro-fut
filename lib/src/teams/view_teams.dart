@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/teams/team_card.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 
 class ViewTeams extends StatefulWidget {
   const ViewTeams({super.key});
@@ -12,11 +14,8 @@ class _ViewTeamsState extends State<ViewTeams> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meus Times'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(title: 'Meus Times', subtitle: 'Reuna seus amigos em um só lugar!'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(

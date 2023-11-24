@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/matches/match_card.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 
 class FinishedMatches extends StatefulWidget {
   const FinishedMatches({super.key});
@@ -12,11 +14,8 @@ class _FinishedMatchesState extends State<FinishedMatches> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Partidas Encerradas'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(title: 'Partidas Encerradas', subtitle: 'Veja seus resultados'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
