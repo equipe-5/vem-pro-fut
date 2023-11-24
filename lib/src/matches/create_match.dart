@@ -191,8 +191,7 @@ class _CreateMatchState extends State<CreateMatch> {
         _dateController.text.isEmpty ||
         _startTimeController.text.isEmpty ||
         _endTimeController.text.isEmpty ||
-        _maxLimitController.text.isEmpty ||
-        _descriptionController.text.isEmpty) {
+        _maxLimitController.text.isEmpty) {
       return showEmptyFieldAlert(context, 'Todos os campos são obrigatórios');
     }
 

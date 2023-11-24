@@ -5,8 +5,9 @@ import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 import 'package:vem_pro_fut_app/src/model/match.dart';
 import 'package:vem_pro_fut_app/src/model/team.dart';
 import 'package:vem_pro_fut_app/src/teams/view_team.dart';
+
 class ScheduleMatches extends StatefulWidget {
-  final Team team; 
+  final Team team;
   const ScheduleMatches({super.key, required this.team});
 
   @override
@@ -192,8 +193,7 @@ class _ScheduleMatchesState extends State<ScheduleMatches> {
         _dateController.text.isEmpty ||
         _startTimeController.text.isEmpty ||
         _endTimeController.text.isEmpty ||
-        _maxLimitController.text.isEmpty ||
-        _descriptionController.text.isEmpty) {
+        _maxLimitController.text.isEmpty) {
       return showEmptyFieldAlert(context, 'Todos os campos são obrigatórios');
     }
 

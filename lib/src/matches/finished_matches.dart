@@ -15,22 +15,30 @@ class FinishedMatches extends StatefulWidget {
 }
 
 class _FinishedMatchesState extends State<FinishedMatches> {
-  
-  void _finish(){
-      for (var element in futureMatches) {
-        if (DateFormat('dd/MM/yyyy').parse(element.matchDate).isBefore(DateTime.now())) {
-          finishedMatches.add(element);
-          futureMatches.remove(element);
-        }
+  void _finish() {
+    List<Match> toRemove = [];
+    List<Match> toAdd = [];
+
+    for (var element in futureMatches) {
+      if (DateFormat('dd/MM/yyyy').parse(element.matchDate).isBefore(
+          DateFormat('yyyy-MM-dd')
+              .parse(DateTime.now().toString().split(' ')[0]))) {
+        toAdd.add(element);
+        toRemove.add(element);
       }
+    }
+
+    finishedMatches.addAll(toAdd);
+    futureMatches.removeWhere((element) => toRemove.contains(element));
   }
-  
+
   @override
   Widget build(BuildContext context) {
     _finish();
     return Scaffold(
       drawer: const SideBarDrawer(),
-      appBar: const Header(title: 'Partidas Encerradas', subtitle: 'Veja seus resultados'),
+      appBar: const Header(
+          title: 'Partidas Encerradas', subtitle: 'Veja seus resultados'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(

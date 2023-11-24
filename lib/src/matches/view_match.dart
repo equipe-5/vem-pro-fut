@@ -89,7 +89,7 @@ class _ViewMatchState extends State<ViewMatch> {
                   children: [
                     const CircleAvatar(
                       radius: 40,
-                      backgroundImage: AssetImage('images/perfil.jpg'),
+                      backgroundImage: AssetImage('assets/images/perfil.jpg'),
                     ),
                     const SizedBox(width: 12),
                     Expanded(

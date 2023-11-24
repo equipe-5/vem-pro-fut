@@ -15,39 +15,28 @@ class SideBarDrawer extends StatefulWidget {
 class _SideBarDrawerState extends State<SideBarDrawer> {
   void _home() {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Home()) 
-    );
+        context, MaterialPageRoute(builder: (context) => const Home()));
   }
 
-  void _newMatch(){
+  void _newMatch() {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const CreateMatch()) 
-    );
+        context, MaterialPageRoute(builder: (context) => const CreateMatch()));
   }
 
-  void _viewTeams(){
+  void _viewTeams() {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ViewTeams()) 
-    );
+        context, MaterialPageRoute(builder: (context) => const ViewTeams()));
   }
 
-  void _futureMatch(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const FutureMatches()) 
-    );
+  void _futureMatch() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const FutureMatches()));
   }
 
-  void _finishedMatch(){
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const FinishedMatches()) 
-    );
+  void _finishedMatch() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const FinishedMatches()));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +68,8 @@ class _SideBarDrawerState extends State<SideBarDrawer> {
                       children: [
                         CircleAvatar(
                           radius: 52,
-                          backgroundImage: AssetImage('images/perfil.jpg'),
+                          backgroundImage:
+                              AssetImage('assets/images/perfil.jpg'),
                         ),
                         SizedBox(height: 12),
                         Text(
@@ -145,7 +135,8 @@ class _SideBarDrawerState extends State<SideBarDrawer> {
             },
           ),
           const SizedBox(height: 48),
-          const Divider(color: Colors.black54, thickness: 0.2, endIndent: 24, indent: 24),
+          const Divider(
+              color: Colors.black54, thickness: 0.2, endIndent: 24, indent: 24),
           const Text('Politica de Privacidade'),
           const SizedBox(height: 12),
           const Text('Termos e Condições')

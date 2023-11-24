@@ -43,19 +43,19 @@ class _ViewTeamState extends State<ViewTeam> {
                 children: [
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('images/perfil.jpg'),
+                    backgroundImage: AssetImage('assets/images/perfil.jpg'),
                   ),
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('images/jogador-1.jpg'),
+                    backgroundImage: AssetImage('assets/images/jogador-1.jpg'),
                   ),
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('images/jogador-2.webp'),
+                    backgroundImage: AssetImage('assets/images/jogador-2.webp'),
                   ),
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('images/jogador-3.webp'),
+                    backgroundImage: AssetImage('assets/images/jogador-3.webp'),
                   ),
                 ],
               ),
