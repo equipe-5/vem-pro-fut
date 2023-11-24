@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MatchCard extends StatelessWidget {
-  final String cardText;
+  final String matchDescription;
+  final int memberCount;
+  final int maxMembers;
+  final String matchDate;
 
-  const MatchCard({required this.cardText, super.key});
+  const MatchCard(
+      {required this.matchDescription,
+      required this.memberCount,
+      required this.maxMembers,
+      required this.matchDate,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +44,46 @@ class MatchCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  cardText,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      matchDescription,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      matchDate,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.0,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
+            Positioned(
+                bottom: 8,
+                right: 8,
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.people,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      '$memberCount/$maxMembers',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ))
           ],
         ),
       ),

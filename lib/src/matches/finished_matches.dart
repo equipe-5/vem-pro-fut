@@ -38,7 +38,12 @@ class _FinishedMatchesState extends State<FinishedMatches> {
                         child: SizedBox(
                           height: 150.0,
                           width: constraints.maxWidth,
-                          child: const MatchCard(cardText: 'Encerrada'),
+                          child: const MatchCard(
+                            matchDescription: 'Encerrada',
+                            memberCount: 0,
+                            maxMembers: 10,
+                            matchDate: '01/01/2022',
+                          ),
                         ),
                       ),
                   ],
