@@ -1,56 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/matches/future_matches.dart';
+import 'package:vem_pro_fut_app/src/model/match.dart';
 
 class ViewMatch extends StatefulWidget {
-  const ViewMatch({super.key});
+  const ViewMatch({super.key, required this.match});
+  final Match match;
 
   @override
   State<ViewMatch> createState() => _ViewMatchState();
 }
 
 class _ViewMatchState extends State<ViewMatch> {
+  void _participate() {
+    bool exists = false;
+    for (var futureMatch in futureMatches) {
+      if (futureMatch.id == widget.match.id) {
+        exists = true;
+        break;
+      }
+    }
+
+    if (!exists) {
+      futureMatches.add(widget.match);
+      widget.match.memberCount += 1;
+      matches.removeWhere((element) => element.id == widget.match.id);
+      setState(() {});
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const FutureMatches()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Visualizar Partida'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: Header(
+          title: widget.match.matchName, subtitle: '1 KM próximo a você'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Text(
-              'NOME DA PARTIDA',
-              style: TextStyle(
+            Text(
+              widget.match.matchName,
+              style: const TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16.0),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.calendar_today),
-                SizedBox(width: 8.0),
+                const Icon(Icons.calendar_today),
+                const SizedBox(width: 8.0),
                 Text(
-                  '01/01/2023',
+                  widget.match.matchDate,
                 ),
               ],
             ),
             const SizedBox(height: 8.0),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.access_time),
-                SizedBox(width: 8.0),
+                const Icon(Icons.access_time),
+                const SizedBox(width: 8.0),
                 Text(
-                  '16:00',
+                  widget.match.matchStartTime,
                 ),
-                Icon(Icons.arrow_forward),
+                const Icon(Icons.arrow_forward),
                 Text(
-                  '18:00',
+                  widget.match.matchEndTime,
                 )
               ],
             ),
@@ -63,25 +85,25 @@ class _ViewMatchState extends State<ViewMatch> {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
-                child: const Row(
+                child: Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 40,
-                      backgroundImage: NetworkImage('URL_TO_PROFILE_PICTURE'),
+                      backgroundImage: AssetImage('images/perfil.jpg'),
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Nome do Host',
-                            style: TextStyle(
+                            widget.match.matchOner,
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Row(
+                          const Row(
                             children: [
                               Icon(Icons.star, color: Colors.yellow),
                               Icon(Icons.star, color: Colors.yellow),
@@ -120,29 +142,28 @@ class _ViewMatchState extends State<ViewMatch> {
             const SizedBox(height: 16.0),
             TextFormField(
               readOnly: true,
-              initialValue: 'Trazer cincão pra Coca.',
+              initialValue: widget.match.matchDescription,
               decoration: const InputDecoration(
                 labelText: 'Observações',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16.0),
-            ButtonTheme(
-              // Set the minimum width of the button to match the screen width
-              height: 50.0, // Set the height of the button
+            Container(
+              alignment: Alignment.bottomCenter,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  return;
+                  _participate();
                 },
-                icon: const Icon(Icons.arrow_upward),
+                icon: const Icon(Icons.add),
                 label: const Text('Participar'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   minimumSize: const Size.fromHeight(50),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(0), // Set the button shape
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  foregroundColor: Colors.white,
                 ),
               ),
             ),

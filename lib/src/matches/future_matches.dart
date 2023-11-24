@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/matches/create_match.dart';
 import 'package:vem_pro_fut_app/src/matches/match_card.dart';
+import 'package:vem_pro_fut_app/src/model/match.dart';
 
 class FutureMatches extends StatefulWidget {
   const FutureMatches({super.key});
@@ -12,11 +16,9 @@ class _FutureMatchesState extends State<FutureMatches> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Partidas Futuras'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(
+          title: 'Partidas Futuras', subtitle: 'Não perca o Horário!'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -25,11 +27,14 @@ class _FutureMatchesState extends State<FutureMatches> {
           mainAxisSize: MainAxisSize.min,
           verticalDirection: VerticalDirection.down,
           children: [
-            ButtonTheme(
-              height: 50.0,
+            Container(
+              alignment: Alignment.bottomCenter,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  return;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateMatch()));
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Criar Partida'),
@@ -37,37 +42,30 @@ class _FutureMatchesState extends State<FutureMatches> {
                   backgroundColor: Colors.green,
                   minimumSize: const Size.fromHeight(50),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  foregroundColor: Colors.white,
                 ),
               ),
             ),
             const SizedBox(height: 16.0),
             Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) => ListView(
-                  scrollDirection: Axis.vertical,
-                  children: [
-                    for (int i = 0; i < 5; i++)
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                        ),
-                        child: SizedBox(
-                          height: 150.0,
-                          width: constraints.maxWidth,
-                          child: const MatchCard(
-                            matchDescription: 'Faltam X Dias',
-                            memberCount: 0,
-                            maxMembers: 10,
-                            matchDate: '01/01/2022',
-                          ),
-                        ),
-                      )
-                  ],
-                ),
-              ),
-            ),
+                child: ListView.builder(
+              itemCount: futureMatches.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                  ),
+                  child: SizedBox(
+                    height: 150.0,
+                    child: MatchCard(
+                      match: futureMatches[index],
+                    ),
+                  ),
+                );
+              },
+            )),
           ],
         ),
       ),

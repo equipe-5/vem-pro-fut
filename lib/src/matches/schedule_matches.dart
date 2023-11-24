@@ -1,250 +1,224 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
+import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/model/match.dart';
+import 'package:vem_pro_fut_app/src/model/team.dart';
+import 'package:vem_pro_fut_app/src/teams/view_team.dart';
 class ScheduleMatches extends StatefulWidget {
-  const ScheduleMatches({super.key});
+  final Team team; 
+  const ScheduleMatches({super.key, required this.team});
 
   @override
   State<ScheduleMatches> createState() => _ScheduleMatchesState();
 }
 
 class _ScheduleMatchesState extends State<ScheduleMatches> {
-  TextEditingController _dataController = TextEditingController();
-  TextEditingController _horaController = TextEditingController();
-  final List<String> _estados = [
-    'Paraná',
-    'Santa Catarina',
-    'Rio Grande do Sul',
-    'Rio de Janeiro',
-    'Minas Gerais',
-    'Ceará',
-    'Espirito Santo',
-    'Bahia',
-    'Pernambuco',
-  ];
-  final List<String> _cidades = [
-    'Toledo',
-    'Cascavel',
-    'Porto Alegre',
-    'Curitiba',
-    'Florianópolis'
-  ];
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
+  final TextEditingController _maxLimitController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Agendar Jogo'),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
-      ),
+      drawer: const SideBarDrawer(),
+      appBar: const Header(
+          title: 'Agendar Partida', subtitle: 'Coloque seu time em jogo'),
       body: SingleChildScrollView(
-        // Adicionando SingleChildScrollView aqui
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  child: const Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage: NetworkImage('URL_TO_PROFILE_PICTURE'),
-                      ),
-                      SizedBox(height: 12),
-                      Text(
-                        'Nome do Jogo',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Column(
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Handle button click here
-                    },
-                    icon: const Icon(Icons.people),
-                    label: const Text('Ver Participantes'),
-                  ),
-                  const SizedBox(height: 64.0),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextField(
-                        controller: _dataController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Selecione uma data',
-                          icon: Icon(Icons.calendar_today),
-                        ),
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1950),
-                            lastDate: DateTime(2100),
-                          );
-                          if (pickedDate != null) {
-                            String formattedDate =
-                                DateFormat('dd/MM/yyyy').format(pickedDate);
-                            setState(() {
-                              _dataController.text = formattedDate;
-                            });
-                          }
-                        }),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextField(
-                        controller: _horaController,
-                        keyboardType: TextInputType.text,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Selecione uma hora',
-                          icon: Icon(Icons.access_time),
-                        ),
-                        onTap: () async {
-                          TimeOfDay? pickedTime = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.now(),
-                          );
-                          if (pickedTime != null) {
-                            setState(() {
-                              _horaController.text = pickedTime.format(context);
-                            });
-                          }
-                        }),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              TextFormField(
-                readOnly: false,
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment:
+              MainAxisAlignment.start, // Align components centrally
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Nome da Partida'),
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+                controller: _dateController,
+                keyboardType: TextInputType.datetime,
                 decoration: const InputDecoration(
-                  labelText: 'Observações',
-                  border: OutlineInputBorder(),
-                ),
+                    labelText: 'Data',
+                    suffixIcon: Icon(Icons.calendar_today),
+                    border: OutlineInputBorder()),
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(2100),
+                  );
+                  if (pickedDate != null) {
+                    String formattedDate =
+                        DateFormat('dd/MM/yyyy').format(pickedDate);
+                    setState(() {
+                      _dateController.text = formattedDate;
+                    });
+                  }
+                }),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _startTimeController,
+              keyboardType: TextInputType.text,
+              decoration: const InputDecoration(
+                labelText: 'Hora de Inicio',
+                suffixIcon: Icon(Icons.access_time),
+                border: OutlineInputBorder(),
               ),
-              const SizedBox(height: 16.0),
-              Container(
-                margin: const EdgeInsets.only(bottom: 16.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextFormField(
-                        readOnly: false,
-                        decoration: const InputDecoration(
-                          labelText: 'Endereço',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      flex: 1,
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          labelText: "Número",
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ], // Only numbers can be entered
-                      ),
-                    ),
-                  ],
-                ),
+              onTap: () async {
+                TimeOfDay? pickedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                if (pickedTime != null) {
+                  // ignore: use_build_context_synchronously
+                  String formattedTime = pickedTime.format(context);
+                  setState(() {
+                    _startTimeController.text = formattedTime;
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _endTimeController,
+              keyboardType: TextInputType.text,
+              decoration: const InputDecoration(
+                labelText: 'Hora de término',
+                suffixIcon: Icon(Icons.access_time),
+                border: OutlineInputBorder(),
               ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 16.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: TextFormField(
-                        readOnly: false,
-                        decoration: const InputDecoration(
-                          labelText: 'Cidade',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      flex: 1,
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          labelText: "Estado",
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ], // Only numbers can be entered
-                      ),
-                    ),
-                  ],
+              onTap: () async {
+                TimeOfDay? pickedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                if (pickedTime != null) {
+                  // ignore: use_build_context_synchronously
+                  String formattedTime = pickedTime.format(context);
+                  setState(() {
+                    _endTimeController.text = formattedTime;
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              children: [
+                const Text(
+                  'Limite máximo de jogadores:',
+                  style: TextStyle(fontSize: 16.0),
                 ),
-              ),
-              ElevatedButton.icon(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.green),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: TextField(
+                    controller: _maxLimitController,
+                    keyboardType: TextInputType.number,
                   ),
                 ),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Confirmar Agendamento'),
-                        content: const Text(
-                            'Tem certeza que deseja agendar este jogo?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text('Cancelar'),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text('Confirmar'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                icon: const Icon(Icons.calendar_today),
-                label: const Text('Agendar'),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _descriptionController,
+              decoration: const InputDecoration(labelText: 'Observações'),
+            ),
+            const SizedBox(height: 24.0),
+            const Text(
+              "Selecione o Local",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16.0),
+            ),
+            const SizedBox(height: 16.0),
+            ButtonTheme(
+              minWidth: 1000.0, // Set the minimum width of the button
+              height: 50.0,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text('Selecionar No Mapa'),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 32.0),
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  _addMatch();
+                },
+                icon: const Icon(Icons.add),
+                label: const Text('Agendar Partida'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  void showEmptyFieldAlert(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Verifique as informações'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _addMatch() {
+    if (_nameController.text.isEmpty ||
+        _dateController.text.isEmpty ||
+        _startTimeController.text.isEmpty ||
+        _endTimeController.text.isEmpty ||
+        _maxLimitController.text.isEmpty ||
+        _descriptionController.text.isEmpty) {
+      return showEmptyFieldAlert(context, 'Todos os campos são obrigatórios');
+    }
+
+    if (DateFormat('dd/MM/yyyy')
+        .parse(_dateController.text)
+        .isBefore(DateTime.now())) {
+      return showEmptyFieldAlert(
+          context, 'Não é possível voltar no tempo!! verifique sua data');
+    }
+
+    Match match = Match(
+        _nameController.text,
+        _dateController.text,
+        _startTimeController.text,
+        _endTimeController.text,
+        int.parse(_maxLimitController.text),
+        _descriptionController.text,
+        widget.team.memberCount,
+        'Admin',
+        IdMatches);
+
+    widget.team.matches.add(match);
+    IdMatches += 1;
+
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ViewTeam(team: widget.team)));
   }
 }
