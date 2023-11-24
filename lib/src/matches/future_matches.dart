@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
+import 'package:vem_pro_fut_app/src/matches/create_match.dart';
 import 'package:vem_pro_fut_app/src/matches/match_card.dart';
 
 class FutureMatches extends StatefulWidget {
@@ -28,7 +29,7 @@ class _FutureMatchesState extends State<FutureMatches> {
               height: 50.0,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  return;
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateMatch()));
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Criar Partida'),

@@ -10,26 +10,8 @@ class ScheduleMatches extends StatefulWidget {
 }
 
 class _ScheduleMatchesState extends State<ScheduleMatches> {
-  TextEditingController _dataController = TextEditingController();
-  TextEditingController _horaController = TextEditingController();
-  final List<String> _estados = [
-    'Paraná',
-    'Santa Catarina',
-    'Rio Grande do Sul',
-    'Rio de Janeiro',
-    'Minas Gerais',
-    'Ceará',
-    'Espirito Santo',
-    'Bahia',
-    'Pernambuco',
-  ];
-  final List<String> _cidades = [
-    'Toledo',
-    'Cascavel',
-    'Porto Alegre',
-    'Curitiba',
-    'Florianópolis'
-  ];
+  final TextEditingController _dataController = TextEditingController();
+  final TextEditingController _horaController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

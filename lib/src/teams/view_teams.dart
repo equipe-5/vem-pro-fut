@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vem_pro_fut_app/src/commons/components/header.dart';
+import 'package:vem_pro_fut_app/src/teams/create_team.dart';
 import 'package:vem_pro_fut_app/src/teams/team_card.dart';
 import 'package:vem_pro_fut_app/src/commons/components/navbar.dart';
 
@@ -15,7 +16,8 @@ class _ViewTeamsState extends State<ViewTeams> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const SideBarDrawer(),
-      appBar: const Header(title: 'Meus Times', subtitle: 'Reuna seus amigos em um só lugar!'),
+      appBar: const Header(
+          title: 'Meus Times', subtitle: 'Reuna seus amigos em um só lugar!'),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -25,7 +27,10 @@ class _ViewTeamsState extends State<ViewTeams> {
               height: 50.0,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  return;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreateTeam()));
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Criar Time'),
